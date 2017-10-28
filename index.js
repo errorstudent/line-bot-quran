@@ -4,14 +4,9 @@ const line = require('@line/bot-sdk');
 const express = require('express');
 
 // create LINE SDK config from env variables
-// const config = {
-//   channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
-//   channelSecret: process.env.CHANNEL_SECRET,
-// };
-
 const config = {
-	channelAccessToken: 1543142892,
-	channelSecret: 'c93e952e7feedc75cd96f2cd575b206d',
+  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
+  channelSecret: process.env.CHANNEL_SECRET,
 };
 
 // create LINE SDK client
@@ -30,11 +25,6 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 		.then((result) => res.json(result));
 });
 
-app.get('/', function (req, res) {
-	res.send('Hello World!')
-})
-
-
 // event handler
 function handleEvent(event) {
 	console.log(event);
@@ -47,7 +37,7 @@ function handleEvent(event) {
 	const echo = { type: 'text', text: event.message.text };
 
 	// use reply API
-	return client.replyMessage('A+q1bdTKfSxy60XPZJB/uzoTkr6thnZOnUcSTkd4DhGz3UqQmJTgaAUJEcKx0Fi0lqIaMir2D8vdKVzxYWkYCmPPjfxW5009Ql2FFDvMfAxRm3Lq5KlUcWhASTqmMy6Dv3Z+s6O3H3KXwi1a0GQWtAdB04t89/1O/w1cDnyilFU=', echo);
+	return client.replyMessage(event.replyToken, echo);
 }
 
 // listen on port
