@@ -25,6 +25,11 @@ app.post('/webhook', line.middleware(config), (req, res) => {
     .then((result) => res.json(result));
 });
 
+app.get('/', function (req, res) {
+    res.send('Hello World!')
+  })
+  
+
 // event handler
 function handleEvent(event) {
   if (event.type !== 'message' || event.message.type !== 'text') {
