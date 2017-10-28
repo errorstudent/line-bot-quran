@@ -27,7 +27,6 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 
 // event handler
 function handleEvent(event) {
-	console.log(event);
 	if (event.type !== 'message' || event.message.type !== 'text') {
 		// ignore non-text-message event
 		return Promise.resolve(null);
@@ -39,6 +38,17 @@ function handleEvent(event) {
 	// use reply API
 	return client.replyMessage(event.replyToken, echo);
 }
+
+app.use((err, req, res, next) => {
+	if (err instanceof line.SignatureValidationFailed) {
+	  res.status(401).send(err.signature)
+	  return
+	} else if (err instanceof line.JSONParseError) {
+	  res.status(400).send(err.raw)
+	  return
+	}
+	next(err) // will throw default 500
+  })
 
 // listen on port
 const port = process.env.PORT || 3000;
