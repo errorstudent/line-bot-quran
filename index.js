@@ -2,9 +2,6 @@
 
 const line = require('@line/bot-sdk');
 const express = require('express');
-const crypto = require('crypto');
-
-
 
 // create LINE SDK config from env variables
 // const config = {
@@ -27,9 +24,6 @@ const app = express();
 // register a webhook handler with middleware
 // about the middleware, please refer to doc
 app.post('/webhook', line.middleware(config), (req, res) => {
-
-	// Signature
-	const signature = crypto.createHmac('SHA256', config.channelSecret).update(req.body).digest('base64');
 
 	Promise
 		.all(req.body.events.map(handleEvent))
