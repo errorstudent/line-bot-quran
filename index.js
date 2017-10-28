@@ -25,6 +25,10 @@ const app = express();
 // register a webhook handler with middleware
 // about the middleware, please refer to doc
 app.post('/webhook', line.middleware(config), (req, res) => {
+
+	// Signature
+	const signature = createHmac('SHA256', config.channelSecret).update(req.body).digest('base64');
+
 	Promise
 		.all(req.body.events.map(handleEvent))
 		.then((result) => res.json(result));
@@ -47,7 +51,7 @@ function handleEvent(event) {
 	const echo = { type: 'text', text: event.message.text };
 
 	// use reply API
-	return client.replyMessage(event.replyToken, echo);
+	return client.replyMessage('A+q1bdTKfSxy60XPZJB/uzoTkr6thnZOnUcSTkd4DhGz3UqQmJTgaAUJEcKx0Fi0lqIaMir2D8vdKVzxYWkYCmPPjfxW5009Ql2FFDvMfAxRm3Lq5KlUcWhASTqmMy6Dv3Z+s6O3H3KXwi1a0GQWtAdB04t89/1O/w1cDnyilFU=', echo);
 }
 
 // listen on port
