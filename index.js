@@ -116,16 +116,16 @@ function getAyah(text, token) {
 	});
 }
 
-app.use((err, req, res, next) => {
-	if (err instanceof line.SignatureValidationFailed) {
-		res.status(401).send(err.signature)
-		return
-	} else if (err instanceof line.JSONParseError) {
-		res.status(400).send(err.raw)
-		return
-	}
-	next(err) // will throw default 500
-})
+// app.use((err, req, res, next) => {
+// 	if (err instanceof line.SignatureValidationFailed) {
+// 		res.status(401).send(err.signature)
+// 		return
+// 	} else if (err instanceof line.JSONParseError) {
+// 		res.status(400).send(err.raw)
+// 		return
+// 	}
+// 	next(err) // will throw default 500
+// })
 
 // listen on port
 const port = process.env.PORT || 3000;
